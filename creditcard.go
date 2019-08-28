@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Define a Card type that holds,
+// Card type that holds,
 // generic information about the credit card
 type Card struct {
 	Number  string
@@ -16,7 +16,7 @@ type Card struct {
 	Company Company
 }
 
-// Define a Company type that holds,
+// Company type that holds,
 // short and long names of who has issued the credit card
 type Company struct {
 	Code string
@@ -219,7 +219,7 @@ func (c *Card) BrandValidate() (Company, error) {
 	case ccDigits.At(4) == 5019:
 		return Company{"dankort", "Dankort"}, nil
 
-	case ccDigits.At(2) >= 51 && ccDigits.At(2) <= 55:
+	case ccDigits.At(2) >= 51 && ccDigits.At(2) <= 55 || ccDigits.At(6) >= 222100 && ccDigits.At(6) <= 272099:
 		return Company{"mastercard", "Mastercard"}, nil
 
 	case ccDigits.At(2) == 35:
@@ -241,9 +241,9 @@ func (c *Card) BrandValidate() (Company, error) {
 	}
 }
 
+// ValidateNumber will check the credit card's number against the Luhn algorithm
 // Luhn algorithm
 // http://en.wikipedia.org/wiki/Luhn_algorithm
-// ValidateNumber will check the credit card's number against the Luhn algorithm
 func (c *Card) ValidateNumber() bool {
 	var sum int
 	var alternate bool
